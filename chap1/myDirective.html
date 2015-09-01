@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="../../bootstrap/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="../js/angular.min.1.4.js"></script>
+<style>
+body > div { margin: 10px 20px; padding: 10px; border: 1px solid #999; background-color: #E1E8EE; border-radius: 3px; }
+body > div > * { margin-bottom: 2px; }
+body > div > span { font-weight: bold; color: #39C; }
+</style>
+
+<title>AngularJS - 指令详解</title>
+</head>
+
+<body>
+
+<div  ng-app="myApp" ng-init="aFristProperty='some data'">
+    <div ng-init="aSecondProperty='more data'">
+    	Outside myDirective: {{otherProperty}}
+        <div my-directive ng-init="otherProperty='other data'" ng-controller="myController3">
+        	inside myDirective: {{otherProperty}}
+        </div>
+        Inside Div Two: {{aThirdProperty}}
+        <div ng-init="aThirdProperty='data for 3rd property'" ng-controller="myController1">
+            Inside Div Three: {{aThirdProperty}}
+            <div ng-controller="myController2">
+                Inside Div Four: {{aThirdProperty}}
+                <br/>
+                Outside myDirective: {{myProperty}}
+                <div my-directive ng-init="myProperty='wow, this is cool'">
+                	Inside myDirective: {{myProperty}}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div ng-controller="myController5" ng-init="myProperty3='I am crazy!'">
+    	Outside myDirective2: {{myProperty3}}
+        <div my-directive2>
+        </div>
+        <div my-directive3>
+        </div>
+    </div>    
+    <div ng-controller="myController4" >
+    	Outside myDirective1: {{myProperty2}}
+        <div my-inherit-scope-directive1></div>
+        <div my-inherit-scope-directive2></div>
+        <div my-inherit-scope-directive3></div>
+        <div my-directive1 ng-init="myProperty2='wow, this is cool, haha'"></div>
+    </div>
+    
+
+</div>
+
+
+<script type="text/javascript" src="myDirective.js"></script>
+</body>
+</html>

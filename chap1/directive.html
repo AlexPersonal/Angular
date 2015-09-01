@@ -1,0 +1,144 @@
+<!doctype html>
+<html ng-app="directiveApp">
+<head>
+<meta charset="utf-8">
+<link href="../../bootstrap/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="../js/angular.min.1.4.js"></script>
+<style>
+body > div { margin: 10px 20px; padding: 10px; border: 1px solid #999; background-color: #E1E8EE; border-radius: 3px; }
+body > div > * { margin-bottom: 2px; }
+body > div > span { font-weight: bold; color: #39C; }
+</style>
+
+<title>AngularJS - 指令</title>
+</head>
+
+<body>
+
+<div ng-controller="controller1">
+    <span>ng-disabled: </span>
+    <input type="text" ng-model="testDisabled" placeholder="Type to Enable Button" />
+    <button ng-model="button" ng-disabled="!testDisabled">A Button</button>
+    <input type="text" ng-disabled="isDisabled" value="Wait 5 seconds!" />
+    按钮的disabled由第一个输入框是否有值决定；第二个输入框定时5秒后取消disabled
+    <br/>
+    <span>ng-readonly:</span>
+    <input type="text" ng-model="testReadonly" />
+    <input type="text" ng-readonly="testReadonly" value="Some text" />
+    第二个输入框的readonly由第一个输入框是否有值决定
+    <br />
+    <span>ng-checked:</span>
+    <input type="checkbox" ng-checked="testChecked1" ng-init="testChecked = true" ng-model="testChecked" />
+    <input type="checkbox" ng-checked="testChecked" ng-init="testChecked1 = true" ng-model="testChecked1" />
+    <label>checked: {{testChecked}}</label>
+    这里点击第二个checkbox，值并没有被传递给label；轮流点击checkbox，会出现不能同步选择的现象！
+    <br />
+    <span>ng-selected:</span>
+    <input type="checkbox" ng-model="testSelected1" /><input type="checkbox" ng-model="testSelected2" />
+    <select>
+        <option ng-selected="testSelected1">One</option>
+        <option ng-selected="testSelected2">Two</option>
+    </select>
+    点击checkbox，同步select；表现依然不完美，同步的响应是一个单向序列响应，选择2，点击1，select仅变化一次，选择1，点击2，select变化是同步的！
+    <br/>
+    <span>ng-href:</span>
+    <a ng-href="{{ testHref }}">a ng-href</a>
+    <a href="{{ testHref }}">a href</a>
+    当url为表达式插值时，ng-href会在表达式插值生效后才接受点击，并链接到url
+    <br />
+    <span>ng-src: </span>例子表现上来说，好像一致，都是2秒后出现图像；实际上在google浏览器开发者工具的网络面板中，直接用src加载的请求是红色的，说明发生了错误！<br/>
+    Wrong way: 
+    <img src="{{ testSrc }}" height="25px" />
+    Right way: 
+    <img ng-src="{{ testSrc }}" height="25px" />
+    <br />
+    <span>ng-controller: </span>{{ model1.property1 }}
+    <button ng-click="action1()">Communicate</button>
+    <br />
+    
+    <span>child controller: </span><br/>
+    {{ someValue }}
+    <button ng-click="someAction1()">Communicate to child</button>
+    <div ng-controller="childController1">
+        {{ someValue }}
+        <button ng-click="childAction1()">Communicate to parent</button>
+    </div>
+    {{ someModel.someValue }}
+    <button ng-click="someAction2()">Communicate to child</button>
+    <div ng-controller="childController2">
+        {{ someModel.someValue }}
+        <button ng-click="childAction2()">Communicate to parent</button>
+    </div>
+    
+    <span>ng-switch: </span>ng-switch和on=""一起使用，使用ng-switch-default、ng-switch-when=""条件判断来显示相应元素；从表现来看，显示过程是一个添加、移除元素的动作；和ng-if指令一样，它们与ng-show、ng-hide的本质区别是，前者是真正生成和删除元素，后者是通过CSS显示或隐藏元素！因此，需要注意的是，在条件于false和true切换过程中，生成的新的元素都是指令编译后的原始状态，可能与删除元素之前的表现（比如通过其它操作添加了一些CSS修饰）不一致！
+    <br/>
+    <input type="text" ng-model="person.name" placeholder="White or Alex" />
+    <div ng-switch on="person.name">
+    	<p ng-switch-default>And winner is</p>
+        <p ng-switch-when="White">{{person.name}}</p>
+        <p ng-switch-when="Alex">{{person.name}}</p>
+    </div>
+
+<style>
+.odd { background-color: blue; }
+.even { background-color: red; }
+</style>    
+    <span>ng-repeat: </span>
+    <br/>
+    <ul>
+    	<li ng-cloak ng-repeat="person in people" ng-class="{even: !$even, odd: !$odd}">{{person.name}} lives in {{person.city}}</li>
+    </ul>
+    
+    <span>ng-cloak: </span>这个功能的表现不太明白！
+    <div ng-init="greeting='Hello World'">
+    	<p ng-cloak>{{greeting}}</p>
+    </div>
+    
+    <span>ng-bind, ng-bind-template: </span>两者的区别在于，前者只能绑定一个表达式，后者可以绑定多个表达式，但后者的表达式需要用{ {  } }
+    <br/>
+    ng-bind: <label ng-bind="model1.property1"></label> || 
+    ng-bind-template: <label ng-bind-template="{{someValue}}, {{someModel.someValue}}"></label>
+    
+    <br/>
+    <span>ng-model, ng-change: </span>初始化数据模型是最佳体验！ng-change指令一般和ng-model联合使用
+    <br/>
+    <input type="text" ng-model="model2.x" ng-change="change()" />
+	<label>output1：{{model2.output}}</label>
+	<label>output2：{{model2.x * 2}}</label>
+    
+    <br/>
+    <span>ng-select、ng-options: </span>ng-options="city.id as city.name group by city.group for city in cities" 如果省略city.id as，则整个city对象将作为model！
+    <br/>
+    <select ng-model="city1" ng-options="city.id as city.name group by city.group for city in cities1" ng-change="change2()">
+    	<option value="">Choose City</option>
+    </select>
+    Best city: {{city1}}
+</div>
+
+<div ng-controller="formController">
+	<span>ng-submit: </span>ng-repeat表达式中的index；考虑到对象级别的元素大多是引用复制，往数组添加一个对象元素时，采用通过元属性赋值并组成对象进行push的方式！！
+    <br/>
+    <form ng-submit="submit()">
+    	Enter text and hit enter:
+        <input type="text" ng-model="person.name" name="person.name" />
+        <input type="submit" name="person.name" value="Submit" />
+        <code>people={{ people }}</code>
+        <ul>
+        	<li ng-repeat="(index, object) in people">{{ index+1 }}: {{ object.name }}</li>
+        </ul>
+    </form>
+
+<style>
+.border1 { border: 3px solid #0F0; }
+.red { background-color: red; }
+.blue { background-color: blue; }
+</style>
+	<span>ng-class: </span>
+    <br/>
+    <label ng-class="{red: testClass <= 3, border1: testClass < 6 || testClass > 7, blue: testClass > 3}" class="border1">Test ng-class: {{testClass}}</label>
+    <button ng-click="addOne()">Plus + </button><button ng-click="deleteOne()">Minus - </button>
+</div>
+
+<script type="text/javascript" src="directive.js"></script>
+</body>
+</html>

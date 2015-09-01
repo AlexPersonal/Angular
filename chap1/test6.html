@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<title>test6</title>
+<script src="../js/angular.min.1.4.js"></script>
+</head>
+
+<body>
+
+<div ng-controller="myController">
+	<h5>Hello {{clock.now | date: 'yyyy-MM-dd HH:mm:ss.sss'}}</h5>
+    
+    <input ng-model="expr" type="text" placeholder="Enter your expression" />
+    <h2>{{ parseValue }}</h2>
+    
+    <input ng-model="to" type="text" placeholder="Recipient" /><br>
+	<textarea ng-model="emailBody"></textarea>
+	<pre>{{ previewText }}</pre>
+    
+    <h2>{{ 3.233 | number: 2 | currency: '￥' }}</h2>
+    
+    <h5>{{ ['White', 'Alex', 'Nova', 'Java', 'PHP'] | limitTo: 2 }}</h5>
+</div>
+
+<script type="text/javascript" src="test6.js"></script>
+
+</body>
+</html>

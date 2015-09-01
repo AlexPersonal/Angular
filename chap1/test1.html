@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="">
+<head>
+<meta charset="utf-8">
+<title>{{person.firstname}}</title>
+</head>
+
+<body>
+<div ng-init="person.firstname='white';names=['Jani','Hege','Kai']">
+  <p>在输入框中尝试输入：</p>
+  <p>姓名：<input type="text" ng-model="person.firstname"></p>
+  <p>姓名：<input type="text" ng-model="person.lastname"></p>
+  <p>{{ person.firstname + " " + person.lastname }}</p> 
+  <p ng-bind="person.firstname + ' ' + person.lastname"> </p>
+  
+  
+  <p>使用 ng-repeat 来循环数组</p>
+  <ul>
+    <li ng-repeat="x in names">
+    	I'm {{ x }}
+    </li>
+  </ul>
+</div>
+
+<script src="../js/angular.min.1.4.js"></script>
+</body>
+</html>
